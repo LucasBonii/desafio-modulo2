@@ -61,6 +61,53 @@ export async function mealsRoutes(app: FastifyInstance) {
   })
 
 
+  app.get('/metrics', async (request, reply) => {
+    const sessionId = request.cookies.sessionId
+
+    const user = await db('users')
+      .where('session_id', sessionId)
+      .first()
+
+    if (!user) {
+      return reply.status(401).send({ error: 'Unauthorized' })
+    }
+
+    const meals = await db('meals')
+      .where('user_id', user.id)
+      .orderBy('date', 'asc')
+
+    const totalMeals = meals.length
+
+    const totalMealsOnDiet = meals.filter((meal) => Boolean(meal.is_on_diet)).length
+    const totalMealsOffDiet = totalMeals - totalMealsOnDiet
+
+
+    const { bestOnDietSequence } = meals.reduce(
+      (acc, meal) => {
+        if (meal.is_on_diet) {
+          acc.currentSequence += 1
+        } else {
+          acc.currentSequence = 0
+        }
+
+        if (acc.currentSequence > acc.bestOnDietSequence) {
+          acc.bestOnDietSequence = acc.currentSequence
+        }
+
+        return acc
+      },
+      { currentSequence: 0, bestOnDietSequence: 0 },
+    )
+
+    return reply.send({
+      totalMeals,
+      totalMealsOnDiet,
+      totalMealsOffDiet,
+      bestOnDietSequence,
+    })
+  })
+
+
   app.get('/:id', async (request, reply) => {
     const getMealParamsSchema = z.object({
       id: z.string().uuid('ID inválido'),
