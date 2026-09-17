@@ -1,10 +1,15 @@
 {
   "name": "desafio-modulo2",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/server.ts",
+    "lint": "eslint src",
+    "knex": "tsx ./node_modules/knex/bin/cli.js",
+    "test": "vitest",
+    "build": "tsup src --out-dir build"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +23,8 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "fastify": "^5.12.5",
+    "knex": "^3.3.0",
+    "sqlite3": "^6.0.1",
     "zod": "^4.6.5"
   }
 }
