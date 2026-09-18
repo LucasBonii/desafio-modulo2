@@ -1,12 +1,11 @@
 #Dependencias
 node_modules
 
-#databasex
+#database
 database/*.db
 .env
-
-#Environment
 .env.test
 
 #Build
 build
+
