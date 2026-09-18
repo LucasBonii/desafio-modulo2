@@ -8,7 +8,7 @@
     "dev": "tsx watch src/server.ts",
     "lint": "eslint src",
     "knex": "tsx ./node_modules/knex/bin/cli.js",
-    "test": "vitest",
+    "test": "vitest run",
     "build": "tsup src --out-dir build"
   },
   "keywords": [],
@@ -16,9 +16,12 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^22.20.3",
+    "@types/supertest": "^7.2.1",
+    "supertest": "^7.2.2",
     "tsup": "^8.5.1",
     "tsx": "^4.23.13",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.1"
   },
   "dependencies": {
     "@fastify/cookie": "^11.1.2",
